@@ -1,0 +1,58 @@
+import { config } from "./config.js";
+import sql from 'mssql';
+export class DataAccess {
+  constructor(){
+    this.isConnectionSuccess = false; 
+    
+  }  
+  async connectToDb(){
+    try {
+        const connection = await sql.connect('Server=127.0.0.1;Database=eShoppingCodi;User Id=sa;Password=MyPass@word;Encrypt=false;TrustServerCertificate=true');
+        this.isConnectionSuccess = connection.connected;
+        console.log(`Conected ${connection.connected}`);
+    }catch(ex){
+        console.log(ex.message);
+        this.isConnectionSuccess = false
+    }
+  }
+
+
+  async getProducts(){
+    try {
+     if(this.isConnectionSuccess) {
+        const result = await sql.query`select * from ProductInfo`;
+        console.log(result);
+        return {
+            data: result
+        }
+     } else {
+        throw new Error("The Connection coud not be established");
+     }
+    }catch(ex){
+        console.log(ex.message);
+        return {
+            message: ex.message
+        }
+    }
+
+    
+  }
+  async createProduct(){
+    try {
+     if(this.isConnectionSuccess) {
+        const result = await sql.query`insert into ProductInfo (ProductId, ProductName,CategoryName, Manufacturer, Description, BasePrice)values ('Prod-9090', 'Cup', 'Home', 'MS Home', 'Home Appliances',100)`;
+        console.log(result);
+        return {
+            data: result
+        }
+     } else {
+        throw new Error("The Connection coud not be established");
+     }
+    }catch(ex){
+        console.log(ex.message);
+        return {
+            message: ex.message
+        }
+    }
+}
+}
