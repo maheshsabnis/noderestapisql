@@ -1,5 +1,6 @@
 import { DbConection } from "./connect.js";
 import sql from 'mssql';
+// The DB Operation Class
 class DbOperations {
      getData=async(request,response)=>{
         try {
