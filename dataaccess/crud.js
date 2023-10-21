@@ -3,11 +3,10 @@ import sql from 'mssql';
 // The DB Operation Class
 class DbOperations {
      getData=async(request,response)=>{
-        
         try {
             if(await DbConection.connect()) {
                 const filter = request.header("X-Filter");
-                if(filter !== null || filter.length !== 0){
+                if(filter){
                     console.log(`In if for for header = ${filter}`);
                     const result = await sql.query`select * from ProductInfo where Manufacturer=${filter}`;
                 
