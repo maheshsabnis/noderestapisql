@@ -3,12 +3,21 @@ import sql from 'mssql';
 // The DB Operation Class
 class DbOperations {
      getData=async(request,response)=>{
+        
         try {
             if(await DbConection.connect()) {
+                const filter = request.header("X-Filter");
+                if(filter !== null || filter.length !== 0){
+                    console.log(`In if for for header = ${filter}`);
+                    const result = await sql.query`select * from ProductInfo where Manufacturer=${filter}`;
                 
-               const result = await sql.query`select * from ProductInfo`;
-              
-               return response.status(200).json(result.recordset); 
+                    return response.status(200).json(result.recordset);
+                } else {
+
+                const result = await sql.query`select * from ProductInfo `;
+                
+                return response.status(200).json(result.recordset);
+                } 
             } else {
                 console.log(`Else Conidtion`);
                throw new Error("The Connection coud not be established");
@@ -36,7 +45,6 @@ class DbOperations {
                return response.status(500).json(ex.message);
            }
     }
-
 
      createProduct=async(request,response)=>{
         let product ={

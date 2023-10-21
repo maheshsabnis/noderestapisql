@@ -10,6 +10,7 @@ const dbo = new DbOperations();
 
 instance.get('/api/products',dbo.getData);
 instance.get('/api/products/:id',dbo.getDataById);
+ 
 instance.post('/api/products',dbo.createProduct);
 instance.put('/api/products/:id',dbo.updateProduct);
 instance.delete('/api/products/:id',dbo.deleteProduct);
