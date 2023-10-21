@@ -1,6 +1,6 @@
 import express from 'express';
 import { DbOperations } from './dataaccess/crud.js';
-
+async function server(){
 const PORT = process.env.PORT || 9076;
 
 const instance =  express();
@@ -18,3 +18,8 @@ instance.delete('/api/products/:id',dbo.deleteProduct);
 instance.listen(PORT, ()=>{
     console.log(`API Server is started on PORT: ${PORT}`);
 });
+}
+server();
+ export  {
+    server
+  };
